@@ -1,5 +1,6 @@
-import { styled, keyframes, css } from "styled-components";
-import { useState } from "react";
+import { styled, keyframes } from "styled-components";
+
+import { useState, useEffect } from "react";
 
 interface IconProps {
   active?: boolean;
@@ -7,41 +8,54 @@ interface IconProps {
 
 export default function HeaderMobile() {
   const [active, setActive] = useState(false);
-  return (
-    <>
-      <Main>
-        <Logo src="tulum.png" />
-        <Icon
-          active={active}
-          src="menu.png"
-          onClick={() => {
-            setActive(!active);
-          }}
-        />
-      </Main>
-      <MenuBar active={active}>
-        <List>
-          <ListItem>Pages</ListItem>
-        </List>
-        <List>
-          <ListItem>About us</ListItem>
-        </List>
-        <List>
-          <ListItem>Faq</ListItem>
-        </List>
-        <List>
-          <ListItem>Blog</ListItem>
-        </List>
-        <List>
-          <ListItem>Contact us</ListItem>
-        </List>
-        <List>
-          <Login>Login</Login>
-        </List>
-        <Book>Book Now!</Book>
-      </MenuBar>
-    </>
-  );
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setLoading(false);
+    }, 2000);
+
+    return () => clearTimeout(timer);
+  }, []);
+
+  if (!loading) {
+    return (
+      <>
+        <Main>
+          <Logo src="tulum.png" />
+          <Icon
+            active={active}
+            src="menu.png"
+            onClick={() => {
+              setActive(!active);
+            }}
+          />
+        </Main>
+        <MenuBar active={active}>
+          <List>
+            <ListItem>Pages</ListItem>
+          </List>
+          <List>
+            <ListItem>About us</ListItem>
+          </List>
+          <List>
+            <ListItem>Faq</ListItem>
+          </List>
+          <List>
+            <ListItem>Blog</ListItem>
+          </List>
+          <List>
+            <ListItem>Contact us</ListItem>
+          </List>
+          <List>
+            <Login>Login</Login>
+          </List>
+          <Book>Book Now!</Book>
+        </MenuBar>
+      </>
+    );
+  }
 }
 const slideDown = keyframes`
   from {
@@ -60,12 +74,15 @@ const Main = styled.div`
   justify-content: space-between;
   align-items: center;
   background-color: #f1f1ed;
-  animation: ${slideDown} 1s ease-out;
-  animation-delay: 2s;
+  animation: ${slideDown} 1.5s ease-out;
   transform: translateY(-100%);
   animation-fill-mode: forwards;
   z-index: 1;
   position: relative;
+  background-color: white;
+  @media (min-width: 1200px) {
+    display: none;
+  }
 `;
 
 const Logo = styled.img`
@@ -89,7 +106,12 @@ const MenuBar = styled.div<IconProps>`
   transform: ${(props) =>
     props.active ? "translateY(0)" : "translateY(-100%)"};
   visibility: ${(props) => (props.active ? "visible" : "hidden")};
-  transition: transform 1s ease-out, visibility 1s ease-out;
+  transition: transform 0.7s ease-out, visibility 1s ease-out;
+  background-color: white;
+  overflow-y: hidden;
+  @media (min-width: 1200px) {
+    display: none;
+  }
 `;
 
 const List = styled.div`
