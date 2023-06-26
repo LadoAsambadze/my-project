@@ -40,5 +40,5 @@ const Main = styled.div`
   position: relative;
   z-index: 30;
   animation: ${fadeIn} 0.3s ease-out;
-  animation-delay: 1.5s;
+  animation-delay: 1s;
 `;

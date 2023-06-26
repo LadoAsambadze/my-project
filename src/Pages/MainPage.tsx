@@ -5,15 +5,22 @@ const images = ["batumi2.jpg", "batumi.jpeg"];
 
 export default function MainPage() {
   const [loading, setLoading] = useState(true);
+  const [textLoad, setTextLoad] = useState(true);
   const [imageIndex, setImageIndex] = useState(0);
 
   useEffect(() => {
     const timer = setTimeout(() => {
       setLoading(false);
     }, 1800);
-
     return () => clearTimeout(timer);
   }, []);
+
+  useEffect(() => {
+    const textTimer = setTimeout(() => {
+      setTextLoad(false);
+    }, 2000);
+    return () => clearTimeout(textTimer);
+  });
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -29,7 +36,14 @@ export default function MainPage() {
     return (
       <>
         <Main>
-          <FirstDiv image={images[imageIndex]}></FirstDiv>
+          <FirstDiv image={images[imageIndex]}>
+            {!textLoad ? (
+              <Header>
+                <span>Tulum Luxury Apartment</span>
+                <span>$ 499 usd</span>
+              </Header>
+            ) : null}
+          </FirstDiv>
         </Main>
       </>
     );
@@ -48,12 +62,12 @@ const fadeIn = keyframes`
   }
 `;
 
-const BgFade = keyframes`
+const fadeText = keyframes`
   from {
-    opacity: 1;
+    transform: translateY(100%) 
 
   }to {
-    opacity: 10;
+    transform: translateY(0%) 
   }
 `;
 
@@ -69,5 +83,14 @@ const FirstDiv = styled.div<{ image: string }>`
   background-size: 100%;
   background-position: top;
   background-repeat: no-repeat;
-  animation: ${BgFade} 1s ease-out;
+  padding: 15px;
+`;
+
+const Header = styled.div`
+  display: flex;
+  flex-direction: column;
+  font-size: 32px;
+  line-height: 36px;
+  color: white;
+  animation: ${fadeText} 1s ease-out;
 `;
